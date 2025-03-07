@@ -102,6 +102,28 @@ public class MainActivityTest {
     }
 
     @Test
+    public void addMovieShouldShowErrorForDuplicateTitle() {
+        onView(withId(R.id.buttonAddMovie)).perform(click());
+
+        onView(withId(R.id.edit_title)).perform(ViewActions.typeText("Oppenheimer"));
+        onView(withId(R.id.edit_genre)).perform(ViewActions.typeText("Science Fiction"));
+        onView(withId(R.id.edit_year)).perform(ViewActions.typeText("2014"));
+
+        onView(withId(android.R.id.button1)).perform(click());
+
+        onView(withId(R.id.edit_title)).check(matches(hasErrorText("A movie already exists with this title!")));
+    }
+
+    @Test
+    public void updateMovieShouldShowErrorForDuplicateTitle() {
+        onView(withText("Oppenheimer")).perform(click());
+
+        onView(withId(R.id.edit_title)).perform(ViewActions.replaceText("Barbie"));
+
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.edit_title)).check(matches(hasErrorText("A movie already exists with this title!")));
+    }
+    @Test
     public void appShouldDisplayExistingMoviesOnLaunch() {
         // Check that the initial data is loaded
         onView(withText("Oppenheimer")).check(matches(isDisplayed()));
