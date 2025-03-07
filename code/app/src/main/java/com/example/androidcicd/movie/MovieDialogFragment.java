@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -102,15 +103,34 @@ public class MovieDialogFragment extends DialogFragment {
             positiveButton.setOnClickListener(v -> {
                 if (!validInput())
                     return;
+
                 String title = editMovieName.getText().toString().trim();
                 String genre = editMovieGenre.getText().toString().trim();
                 int year = Integer.parseInt(editMovieYear.getText().toString().trim());
-                if (tag != null && tag.equals( "Movie Details")) {
-                    movieProvider.updateMovie(movie, title, genre, year);
-                } else {
-                    movieProvider.addMovie(new Movie(title, genre, year));
-                }
-                dialog.dismiss();
+
+                String movieId = movie != null ? movie.getId() : null;
+
+                // call checkTitleExists to ensure no duplicate movies are being added/updated to
+                movieProvider.checkTitleExists(title, movieId, new MovieProvider.TitleValidatorCallback() {
+                    @Override
+                    public void onTitleValidated(boolean isUnique) {
+                        if (!isUnique) {
+                                editMovieName.setError("A movie already exists with this title!");
+                        } else { // no duplicate found, therefore movie can be added/updated
+                                if (movie != null) {
+                                    movieProvider.updateMovie(movie, title, genre, year);
+                                } else {
+                                    movieProvider.addMovie(new Movie(title, genre, year));
+                                }
+                                dialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {// used for errors with checking dupes
+                            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                    }
+                });
             });
         });
         return dialog;
@@ -136,3 +156,4 @@ public class MovieDialogFragment extends DialogFragment {
         return true;
     }
 }
+
