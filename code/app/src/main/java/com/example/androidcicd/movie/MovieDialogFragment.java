@@ -60,7 +60,7 @@ public class MovieDialogFragment extends DialogFragment {
             @Override
             public void validate(TextView textView) {
                 if(isEmpty(textView.getText())) {
-                    textView.setError("Move name cannot be empty!");
+                    textView.setError("Movie name cannot be empty!");
                 }
             }
         });
@@ -78,9 +78,9 @@ public class MovieDialogFragment extends DialogFragment {
             @Override
             public void validate(TextView textView) {
                 if(isEmpty(textView.getText())) {
-                    textView.setError("Move year cannot be empty!");
+                    textView.setError("Movie year cannot be empty!");
                 } else if (!isDigitsOnly(textView.getText())) {
-                    textView.setError("Move year must be numeric!");
+                    textView.setError("Movie year must be numeric!");
                 }
             }
         });

@@ -44,6 +44,10 @@ public class MovieProvider {
         return movieProvider;
     }
 
+    public static void setInstanceForTesting(FirebaseFirestore firestore) {
+        movieProvider = new MovieProvider(firestore);
+    }
+
     public ArrayList<Movie> getMovies() {
         return movies;
     }
@@ -78,4 +82,5 @@ public class MovieProvider {
     public boolean validMovie(Movie movie, DocumentReference docRef) {
         return movie.getId().equals(docRef.getId()) && !movie.getTitle().isEmpty() && !movie.getGenre().isEmpty() && movie.getYear() > 0;
     }
+
 }
