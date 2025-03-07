@@ -54,6 +54,10 @@ public class MovieProvider {
         return movieProvider;
     }
 
+    public static void setInstanceForTesting(FirebaseFirestore firestore) {
+        movieProvider = new MovieProvider(firestore);
+    }
+
     public ArrayList<Movie> getMovies() {
         return movies;
     }
@@ -89,6 +93,7 @@ public class MovieProvider {
         return movie.getId().equals(docRef.getId()) && !movie.getTitle().isEmpty() && !movie.getGenre().isEmpty() && movie.getYear() > 0;
     }
 
+  
     // checks for duplicate titles
     public void checkTitleExists(String title, String movieId, TitleValidatorCallback callback) {
         // query to find movies withe the same title (if it exists)

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.androidcicd.movie.Movie;
 import com.example.androidcicd.movie.MovieProvider;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -16,11 +17,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 
 import java.util.Collections;
 
@@ -99,6 +102,7 @@ public class MovieProviderTest {
         movieProvider.updateMovie(movie, "", "Another Genre", 2007);
     }
 
+
     @Test
     public void testCheckTitleExistsShouldThrowErrorForDuplicateTitle() {
         QuerySnapshot mockQuerySnapshot = mock(QuerySnapshot.class);
@@ -129,4 +133,5 @@ public class MovieProviderTest {
             }
         });
     }
+
 }
